@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+      <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+      <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\SourceGenerator.Demo.Analyzer\SourceGenerator.Demo.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <GenFiles Include="Generated\**\*.cs" />
+    </ItemGroup>
+    
+    <Target Name="GenBeforeBuild" BeforeTargets="BeforeBuild">
+        <Delete Files="@(GenFiles)" />
+        <ItemGroup>
+            <Compile Remove="@(GenFiles)" />
+        </ItemGroup>
+    </Target>
+    
+    <Target Name="GenAfterBuild" BeforeTargets="AfterBuild">
+        <ItemGroup>
+            <Compile Include="@(Genfiles)" />
+        </ItemGroup>
+    </Target>
+    
+</Project>
